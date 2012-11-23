@@ -1,0 +1,30 @@
+
+
+Lua:
+
+print("Hello, World!")
+
+C:
+
+printf("Hello, World!");
+
+C++:
+
+std::cout << "Hello, World!" << std::endl;
+
+C#:
+
+Console.WriteLine("Hello, World!");
+
+Java:
+
+System.out.println("Hello, World!");
+
+Ruby:
+
+puts "Hello, World!"
+
+Python:
+
+print "Hello, World!"
+
