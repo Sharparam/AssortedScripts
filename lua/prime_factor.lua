@@ -20,14 +20,12 @@ local function primeFactors(num)
 		local lastFactor = 0
 		local limit = math.floor(math.sqrt(num))
 		repeat
-			print("calculate " .. current)
 			for i = 2, limit do
-				print("testing " .. current .. " against " .. i)
 				local result = current % i
 				if result == 0 then
-					print(current .. " % " .. i .. " = 0")
 					factors[#factors + 1] = i
 					current = current / i
+					break
 				end
 			end
 		until isPrime(current)
@@ -37,9 +35,17 @@ local function primeFactors(num)
 	end
 end
 
-local number = 16
 local out = "%s = %d"
-print(out:format(table.concat(primeFactors(number), " * "), number))
+local function printFactors(num)
+	print(out:format(table.concat(primeFactors(num), " * "), num))
+end
+
+repeat
+	local num = io.read("*n")
+	if num then
+		printFactors(num)
+	end
+until not num
 
 --[[
 
