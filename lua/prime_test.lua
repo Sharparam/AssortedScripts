@@ -5,7 +5,9 @@ local function isPrime(num)
 	return true
 end
 
-local limit = 1000
+print("Input the limit:")
+local limit = io.read("*n")
+if not limit then print("Invalid limit") return end
 
 local primes = {}
 
