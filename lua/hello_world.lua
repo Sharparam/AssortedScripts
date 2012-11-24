@@ -1,8 +1,4 @@
-local myText = "Hello, World!"
-
-print(myText)
-
 print("What's your name?")
-local name = io.read() or "No Name"
-
+local name = io.read()
+if not name or name == "" then name = "No Name" end
 print(("Hello, %s!"):format(name))

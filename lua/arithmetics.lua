@@ -9,6 +9,7 @@ local funcs = {
 local nums = {
 	{'add', 1, 1},
 	{'add', 5, 4},
+	{'add', 10, 15},
 	{'sub', 8, 3},
 	{'div', 10.0, 2.0},
 	{'mul', 5, 5},
