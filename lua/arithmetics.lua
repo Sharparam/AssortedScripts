@@ -12,7 +12,7 @@ local nums = {
 	{'sub', 8, 3},
 	{'div', 10.0, 2.0},
 	{'mul', 5, 5},
-	{'pow', 2, 2}
+	{'pow', 2, 32}
 }
 
 local map = {
@@ -24,6 +24,8 @@ local map = {
 }
 
 local out = "%s = %.1f"
+
+print("Some arithmetics\n")
 
 for _, v in pairs(nums) do
 	method = funcs[v[1]]
