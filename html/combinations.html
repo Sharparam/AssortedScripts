@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf8">
+    <title>Combinations!</title>
+    <style type="text/css">
+      body {
+        margin: 10px;
+        font-family: sans-serif;
+      }
+    
+      body > div {
+        display: block;
+        float: left;
+        margin-right: 2em;
+      }
+      
+      p > span:after {
+        content: ':';
+      }
+      
+      p > div {
+        display: inline-block;
+      }
+      
+      label {
+        margin-left: 0.5em;
+      }
+      
+      input {
+        margin-left: 0.6em;
+      }
+      
+      input[type='checkbox'] {
+        transform: scale(1.5);
+      }
+      
+      button {
+        margin-left: 0.7em;
+      }
+      
+      textarea {
+        height: 20em;
+        font-family: monospace;
+      }
+    </style>
+  </head>
+  <body>
+    <div>
+    </div>
+    <textarea>
+    </textarea>
+    <script type="text/javascript">
+      'use strict';
+
+      function text(el, t) {
+        if (el.innerText) {
+          el.innerText = t;
+        } else {
+          el.textContent = t;
+        }
+      }
+      
+      var tiers = [
+        [true, true, true, false],
+        [true, true, true, false],
+        [true, true, true, false],
+        [true, true, true, false],
+        [true, true, true, false],
+        [true, true, true, false],
+        [true, true, true, false]
+      ];
+      
+      var output = document.querySelector('textarea');
+      
+      function selectAll(e) {
+        e.target.selectionStart = 0;
+        e.target.selectionEnd = e.target.value.length;
+      }
+      
+      output.onfocus = selectAll;
+      output.onclick = selectAll;
+      
+      function updateOutput() {
+        console.log('Updating output!');
+        output.value = '';
+        var lines = [];
+        
+        (function gen(tier, acc) {
+          if (tier == tiers.length) {
+            lines.push(acc);
+          } else {
+            for (var i = 0; i < tiers[tier].length; i++) {
+              if (!tiers[tier][i])
+                continue;
+              
+              var cpy = acc.slice();
+              cpy.push((i + 1) % 4);
+              gen(tier + 1, cpy);
+            }
+          }
+        })(0, []);
+        
+        output.value = lines.map(function(l) { return l.join(''); }).join('\n');
+      };
+      
+      function updateChecks() {
+        for (var tier = 0; tier < tiers.length; tier++) {
+          for (var i = 0; i < 4; i++) {
+            var check = document.querySelector('input[type="checkbox"][data-tier="' + tier + '"][data-index="' + i + '"]');
+            check.checked = tiers[tier][i];
+          }
+        }
+      }
+      
+      var container = document.querySelector('div');
+      
+      function createRow(tier) {
+        var p = document.createElement('p');
+        var span = document.createElement('span');
+        text(span, 'Tier ' + (tier + 1));
+        p.appendChild(span);
+        for (var i = 0; i < 4; i++) {
+          var div = document.createElement('div');
+          var label = document.createElement('label');
+          text(label, (i + 1) % 4);
+          var id = (tier + 1).toString() + (i + 1).toString();
+          label.setAttribute('for', id);
+          var input = document.createElement('input');
+          input.type = 'checkbox';
+          input.id = id;
+          input.dataset.tier = tier;
+          input.dataset.index = i;
+          input.onchange = function(e) {
+            var tier = parseInt(e.target.dataset.tier);
+            var index = parseInt(e.target.dataset.index);
+            tiers[tier][index] = e.target.checked;
+            updateOutput();
+          };
+          div.appendChild(label);
+          div.appendChild(input);
+          p.appendChild(div);
+        }
+        
+        var toggle = document.createElement('button');
+        text(toggle, 'Toggle');
+        toggle.dataset.tier = tier;
+        toggle.onclick = function(e) {
+          var tier = parseInt(e.target.dataset.tier);
+          var anyActive = tiers[tier].some(function(e, i, a) { return e; });
+          for (var i = 0; i < (anyActive ? 4 : 3); i++) {
+            tiers[tier][i] = !anyActive;
+          }
+          updateChecks();
+          updateOutput();
+        };
+        p.appendChild(toggle);
+        
+        return p;
+      }
+      
+      for (var i = 0; i < tiers.length; i++) {
+        container.appendChild(createRow(i));
+      }
+      
+      updateChecks();
+      updateOutput();
+    </script>
+  </body>
+</html>
